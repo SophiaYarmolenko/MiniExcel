@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainAnchorPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #33cc66;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TableView fx:id="mainTableView" editable="true" layoutY="96.0" prefHeight="304.0" prefWidth="600.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="96.0" />
+      <TextField fx:id="formulaLabel" layoutX="45.0" layoutY="70.0" prefHeight="26.0" prefWidth="555.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="0.0" />
+      <TextField fx:id="formulaNameLabel" layoutY="70.0" prefHeight="26.0" prefWidth="46.0" />
+      <Label layoutX="8.0" layoutY="22.0" prefHeight="30.0" prefWidth="116.0" text="MiniExcel" textFill="WHITE" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="476.0">
+         <font>
+            <Font name="Century" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="addColButton" layoutX="124.0" layoutY="2.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #ffffff;" text="Add col" textFill="#66cc99" AnchorPane.leftAnchor="124.0" AnchorPane.topAnchor="2.0">
+         <font>
+            <Font name="Century" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="addRowButton" layoutX="169.0" layoutY="37.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="89.0" style="-fx-background-color: #ffffff;" text="Add row" textFill="#66cc99" AnchorPane.leftAnchor="169.0" AnchorPane.topAnchor="37.0">
+         <font>
+            <Font name="Century" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="showInstructionButton" layoutX="434.0" layoutY="18.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="152.0" style="-fx-background-color: #ffffff;" text="Show instruction" textFill="#66cc99" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="18.0">
+         <font>
+            <Font name="Century" size="16.0" />
+         </font>
+      </Button>
+      <AnchorPane fx:id="instructionAnchorPane" layoutX="10.0" layoutY="84.0" opacity="0.9" prefHeight="365.0" prefWidth="577.0" style="-fx-background-color: #33cc66;" AnchorPane.topAnchor="84.0">
+         <children>
+            <Label layoutX="36.0" layoutY="14.0" prefHeight="32.0" prefWidth="468.0" text="Операції, які можна використовувати: " textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="46.0" prefHeight="32.0" prefWidth="468.0" text="1) '+', '-', '*', '/', '^'" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="78.0" prefHeight="32.0" prefWidth="529.0" text="2) '%' - остача від ділення, ':' - ділення націло" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="113.0" prefHeight="32.0" prefWidth="529.0" text="3) '&lt;', '&gt;', '&lt;=', '&gt;=' - логічні операції" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="145.0" prefHeight="32.0" prefWidth="529.0" text="4) '!=' - лівий і правий вираз не рівні" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="177.0" prefHeight="32.0" prefWidth="529.0" text="5) '!' - заперечення " textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="209.0" prefHeight="32.0" prefWidth="529.0" text="6) 'pi', 'e' - константи " textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="241.0" prefHeight="32.0" prefWidth="529.0" text="7) Пріорітетність: 6), 1) і 2), 3) і 4) і 5)  " textFill="WHITE">
+               <font>
+                  <Font name="Century" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="closeButton" layoutX="461.0" layoutY="300.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #ffffff;" text="Close" textFill="#66cc99">
+               <font>
+                  <Font name="Century" size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
