@@ -7,6 +7,9 @@
 - [x] logical operation: '<', '<=', '>', '>=', '!', '!='
 - [x] arithmetic operations: '+', '-', '*', '/', '%' - the remainder of the division, ':' - aimed division
 - [x] constants: 'e', 'pi' 
+## How to use:
+*    download "antlr-4-8-comlete.jar" - library to use antlr
+*    Run Main class
 ## What was used:
 *    ANTLR for analyze formula in cell
 *    JavaFx for GUI
@@ -16,5 +19,6 @@ You can see grammar and rules in "LibExp.g4"
 ![ParseTree](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/ParseTree.png)
 ## Class diagram:
 ![ClassesDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/ClassesDiagram.png)
-
+## Use-case diagram:
+![UseCaseDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/UseCaseDiagram.png)
 
