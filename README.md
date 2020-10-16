@@ -2,7 +2,7 @@
 ## Click on image to start demo-video:
 [![Watch the video](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/startPhoto.jpg)](https://youtu.be/wUbJSr8SITw)
 ## About project:
-*    Implemented mini excel, that can analyze given formula in cell (another cells can be like parameters in formula)
+*    Implemented mini excel, that can analyze given formula in cell (another cells can be parameters in formula)
 *    Operation that you can use:
 - [x] logical operation: '<', '<=', '>', '>=', '!', '!='
 - [x] arithmetic operations: '+', '-', '*', '/', '%' - the remainder of the division, ':' - aimed division
