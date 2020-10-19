@@ -120,7 +120,6 @@ public class Controller
             int row = pos.getRow();
             Cell cell = event.getTableView().getItems().get(row).get(columnName);
             formulaLabel.setText(cell.getFormula());
-            formulaLabel.setText(cell.getFormula());
             formulaNameLabel.setText(cell.getCellName());
         }
         );
