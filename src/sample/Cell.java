@@ -10,9 +10,9 @@ public class Cell
 {
     private String cellName;
     private String cellCol;
-    private String stringValue;
-    private double doubleValue;
-    private String formula;
+    private String stringValue = "";
+    private double doubleValue = 0;
+    private String formula = "";
     public LinkedList<Cell> listOfCellsWhereAppears = new LinkedList<>();
     private LinkedList<Cell> listOfCellInFormula = new LinkedList<>();
 
@@ -80,7 +80,7 @@ public class Cell
 
     public void calculateFormulaInCell ()
     {
-        if(listOfCellInFormula != null)
+        if(listOfCellInFormula.size() != 0)
         {
             for(Cell cell : listOfCellInFormula)
             {
@@ -90,9 +90,9 @@ public class Cell
         listOfCellInFormula.clear();
 
         String stringOnlyWithCell = formula;
-        stringOnlyWithCell = stringOnlyWithCell.replaceAll("[-+^>=<%:*a-z][0-9]*"," ")
+        stringOnlyWithCell = stringOnlyWithCell.replaceAll("[-+^>=<%:/*a-z][0-9]*"," ")
                 .replaceAll("[()][0-9]*"," ")
-                .replaceAll("[-+^>=<%:*][0-9][)]*"," ");
+                .replaceAll("[-+^>=<%:/*][0-9][)]*"," ");
         stringOnlyWithCell = stringOnlyWithCell.trim().replaceAll(" +", " ");
 
         for(String str : stringOnlyWithCell.split(" "))
@@ -103,17 +103,30 @@ public class Cell
                 if(!str.replaceAll("[^0-9]", "").equals(""))
                 {
                     int rowNumber = Integer.parseInt(str.replaceAll("[^0-9]", ""));
-                    listOfCellInFormula.add(Controller.table.get(rowNumber).get(colLetter));
-                    if( Controller.table.get(rowNumber).get(colLetter) != null
-                            && Controller.table.get(rowNumber).get(colLetter).getListOfCellsWhereAppears() != null
-                            && !Controller.table.get(rowNumber).get(colLetter).getListOfCellsWhereAppears().contains(this))
+                    if( Controller.lastRowIndex >= rowNumber
+                            && Controller.table.get(rowNumber) != null
+                            && Controller.table.get(rowNumber).get(colLetter) != null )
                     {
-                        Controller.table.get(rowNumber).get(colLetter).addNewCellWhereAppears(this);
+                        listOfCellInFormula.add(Controller.table.get(rowNumber).get(colLetter));
+                        if( Controller.table.get(rowNumber).get(colLetter) != null
+                                && Controller.table.get(rowNumber).get(colLetter).getListOfCellsWhereAppears() != null
+                                && !Controller.table.get(rowNumber).get(colLetter).getListOfCellsWhereAppears().contains(this))
+                        {
+                            Controller.table.get(rowNumber).get(colLetter).addNewCellWhereAppears(this);
+                        }
                     }
                 }
             }
         }
-        analyzeFormulaWithParser();
+        try
+        {
+            analyzeFormulaWithParser();
+        }
+        catch (IndexOutOfBoundsException e )
+        {
+            stringValue = "Error";
+            doubleValue = 0;
+        }
     }
 
     private void analyzeFormulaWithParser()
@@ -144,6 +157,12 @@ public class Cell
                 stringValue = "Error";
                 doubleValue = 0;
             }
+            catch (NullPointerException e)
+            {
+                stringValue = "Error";
+                doubleValue = 0;
+            }
+
         }
         else
         {
@@ -160,38 +179,38 @@ public class Cell
 
     private boolean analyzeFormula()
     {
-       try
-       {
-           if(listOfCellInFormula != null)
-           {
-               for (Cell cell : listOfCellInFormula )
-                   analyzeCellThatAppearsInFormula(cell);
-           }
-       } catch (Exception e)
-       {
-           doubleValue = 0;
-           stringValue = "Error";
-           return false;
-       }
-       return true;
+        try
+        {
+            if(listOfCellInFormula != null)
+            {
+                for (Cell cell : listOfCellInFormula )
+                    analyzeCellThatAppearsInFormula(cell);
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            doubleValue = 0;
+            stringValue = "Error";
+            return false;
+        }
+        return true;
     }
 
-    private void analyzeCellThatAppearsInFormula( Cell cell ) throws Exception
+    private void analyzeCellThatAppearsInFormula( Cell cell ) throws IllegalArgumentException
     {
-        if( cell.stringValue.equals("Error") || cell.stringValue.equals(""))
-            throw new Exception("Value of another cell that is in use is \"Error\" ");
-
+        if( cell.stringValue.equals("Error"))
+            throw new IllegalArgumentException("Value of another cell that is in use is \"Error\" ");
         chechCycle(cell);
 
     }
-    private void chechCycle(Cell cell) throws Exception
+    private void chechCycle(Cell cell) throws IllegalArgumentException
     {
         if ( cell.listOfCellInFormula!=null )
         {
             if( cell.listOfCellInFormula.contains(this) )
             {
                 setError(cell);
-                throw new Exception("Catch value cycle");
+                throw new IllegalArgumentException("Catch value cycle");
             }
 
             for(Cell cell2 : cell.listOfCellInFormula)
