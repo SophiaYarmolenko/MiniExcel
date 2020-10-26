@@ -18,7 +18,7 @@ You can see grammar and rules in "LibExp.g4"
 ### Example of parse tree of expresion "12-AO+3*(5+1/4) >= 1+3+B0"
 ![ParseTree](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/ParseTree.png)
 ## Class diagram:
-![ClassesDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/ClassesDiagram.png)
+![ClassesDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/ClassDiagram.png)
 ## Use-case diagram:
 ![UseCaseDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/UseCaseDiagram.png)
 ## Sequence diagram:
