@@ -22,5 +22,5 @@ You can see grammar and rules in "LibExp.g4"
 ## Use-case diagram:
 ![UseCaseDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/UseCaseDiagram.png)
 ## Sequence diagram:
-![SequenceDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/SequenceDiagram.png)
+![SequenceDiagram](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/Se.png)
 
