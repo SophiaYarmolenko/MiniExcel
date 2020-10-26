@@ -36,8 +36,8 @@ setVar
     ;
 
 logicalOperation
-    : logicalOperation NOTEQUAL plusOrMinus  # Not
-    | logicalOperation NOT plusOrMinus # NoteEqual
+    : logicalOperation NOTEQUAL plusOrMinus  # NoteEqual
+    | logicalOperation NOT plusOrMinus # Not
     | logicalOperation LESSEQUAL plusOrMinus # LessEqual
     | logicalOperation LESS plusOrMinus # Less
     | logicalOperation BIGGEREQUAL plusOrMinus # BiggerEqual

@@ -295,7 +295,7 @@ public class LibExpParser extends Parser {
 		public LogicalOperationContext logicalOperation() {
 			return getRuleContext(LogicalOperationContext.class,0);
 		}
-		public TerminalNode NOTEQUAL() { return getToken(LibExpParser.NOTEQUAL, 0); }
+		public TerminalNode NOT() { return getToken(LibExpParser.NOT, 0); }
 		public PlusOrMinusContext plusOrMinus() {
 			return getRuleContext(PlusOrMinusContext.class,0);
 		}
@@ -364,7 +364,7 @@ public class LibExpParser extends Parser {
 		public LogicalOperationContext logicalOperation() {
 			return getRuleContext(LogicalOperationContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(LibExpParser.NOT, 0); }
+		public TerminalNode NOTEQUAL() { return getToken(LibExpParser.NOTEQUAL, 0); }
 		public PlusOrMinusContext plusOrMinus() {
 			return getRuleContext(PlusOrMinusContext.class,0);
 		}
@@ -467,7 +467,7 @@ public class LibExpParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 					case 1:
 						{
-						_localctx = new NotContext(new LogicalOperationContext(_parentctx, _parentState));
+						_localctx = new NoteEqualContext(new LogicalOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalOperation);
 						setState(35);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
@@ -479,7 +479,7 @@ public class LibExpParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new NoteEqualContext(new LogicalOperationContext(_parentctx, _parentState));
+						_localctx = new NotContext(new LogicalOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalOperation);
 						setState(38);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");

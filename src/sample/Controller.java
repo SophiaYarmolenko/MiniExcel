@@ -6,11 +6,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,11 +23,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import org.stringtemplate.v4.ST;
 
 public class Controller
 {
     public static ObservableList< HashMap<String, Cell> > table = FXCollections.observableArrayList();
-
+    public ObservableList<Number> rowColumn = FXCollections.observableArrayList();
     private double cellStartWidth = 50.0;
     private double cellStartHeight = 12;
     public double tableWidth = 1500.0; // change it if you change in sample.fxml
@@ -92,6 +98,18 @@ public class Controller
     private Button removeRowButton;
 
     @FXML
+    private TableView<Number> rowColumnTableView = new TableView<Number>(rowColumn);
+
+    private class Number
+    {
+        public int number;
+        Number(int number)
+        {
+            this.number = number;
+        }
+    }
+
+    @FXML
     void initialize()
     {
         //Editable
@@ -100,6 +118,7 @@ public class Controller
         saveOpenAnchorPane.setOpacity(0);
         setDeleteColButton();
         setStartColumns();
+        addRowCol();
         setDeleteRowButton();
         cancelButton.setOnAction( actionEvent ->
         {
@@ -135,6 +154,23 @@ public class Controller
         open(stage2);
     }
 
+    private void addRowCol()
+    {
+        for(int i = 0; i < lastRowIndex; i++)
+        {
+            rowColumn.add(new Number(i));
+        }
+
+        TableColumn<Number, Integer> rowCol = new TableColumn<Number, Integer>("№");
+       // rowCol.setMaxWidth(46);
+        rowCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Number, Integer>, ObservableValue<Integer>>() {
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Number, Integer> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().number);
+            }
+        });
+        rowColumnTableView.getColumns().add(rowCol);
+        rowColumnTableView.setItems( rowColumn );
+    }
     private void addCol()
     {
         lastColIndex = generateNextString(lastColIndex);
@@ -198,7 +234,8 @@ public class Controller
         {
             for( HashMap<String, Cell> map : table )
             {
-                setError(map.get(colName));
+                map.get(colName).setStringValue("Error");
+                resetTable();
                 map.remove(colName);
             }
             for( TableColumn column : mainTableView.getColumns())
@@ -211,19 +248,6 @@ public class Controller
             }
         }
         catch (Exception e){}
-    }
-
-    private void setError(Cell cell)
-    {
-        if(cell.listOfCellsWhereAppears != null)
-        {
-            for(Cell cell3 : cell.listOfCellsWhereAppears)
-            {
-                cell3.setStringValue("Error");
-                setError(cell3);
-            }
-        }
-
     }
 
     private void setDeleteRowButton ()
@@ -249,7 +273,8 @@ public class Controller
         {
             for(Cell cell : table.get(rowName).values())
             {
-                setError(cell);
+                cell.setStringValue("Error");
+                resetTable();
             }
             table.remove(rowName);
             mainTableView.refresh();
@@ -467,8 +492,7 @@ public class Controller
             formulaLabel.setText(cell.getFormula());
             formulaNameLabel.setText(cell.getCellName());
             mainTableView.setItems(table);
-
-            //make column refresh value:
+            resetTable();
             col.setVisible(false);
             col.setVisible(true);
         });
@@ -583,13 +607,13 @@ public class Controller
         throw new IllegalArgumentException( String.valueOf(nextLetter) );
     }
 
-    private void resetTable()
+    public static void resetTable()
     {
         for( HashMap<String, Cell> map : table )
         {
             for(Cell cell : map.values() )
             {
-                if( !cell.getStringValue().equals("") )
+                if( !cell.getStringValue().equals("") && !cell.getStringValue().equals("Error"))
                 {
                     cell.calculateFormulaInCell();
                 }

@@ -11,7 +11,7 @@ class CellTest
     {
         String formula1 = "15%2+15^2-3*(6-4/2)>=5^2*pi/e-8:3+1";
         String formula2 = "         15%2 +15^2  -3* (6-4/ 2 )>=5 ^2 *pi  /e-8: 3+1 ";
-        String formula3 = " 1*2 != 2";
+        String formula3 = " 1.0 * 2.0 != 2.0";
 
         Cell cell1 = new Cell("A", formula1, "A0");
         Cell cell2 = new Cell("A", formula2, "A1");

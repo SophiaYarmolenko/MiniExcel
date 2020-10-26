@@ -2,7 +2,6 @@ package sample;
 
 public class LibExpBaseVisitorImpl extends LibExpBaseVisitor<Double>
 {
-        //public HashMap<String, Double> variablesInExpression = new HashMap<String, Double>();
         @Override
         public Double visitPlus(LibExpParser.PlusContext ctx)
         {
@@ -91,7 +90,7 @@ public class LibExpBaseVisitorImpl extends LibExpBaseVisitor<Double>
         @Override
         public Double visitNoteEqual(LibExpParser.NoteEqualContext ctx)
         {
-            if( visit(ctx.logicalOperation()) != visit(ctx.plusOrMinus()))
+            if( !visit(ctx.logicalOperation()).equals(visit(ctx.plusOrMinus())))
                 return 1.0;
             else
                 return 0.0;
@@ -141,7 +140,11 @@ public class LibExpBaseVisitorImpl extends LibExpBaseVisitor<Double>
         {
             int rowNumber = Integer.parseInt(ctx.ID().getText().replaceAll("[^0-9]", ""));
             String colLetter = ctx.ID().getText().replaceAll("[^A-Z]", "");
-            return Controller.table.get(rowNumber).get(colLetter).getDoubleValue();
+            if(Controller.table.get(rowNumber).get(colLetter).getStringValue().equals("Error"))
+            {
+                throw new NumberFormatException("Error in link formula");
+            }
+            return Double.parseDouble(Controller.table.get(rowNumber).get(colLetter).getStringValue());
         }
 
         @Override
