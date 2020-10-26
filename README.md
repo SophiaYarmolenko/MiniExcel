@@ -1,6 +1,6 @@
 # :four_leaf_clover: MiniExcel :green_heart:
 ## Click on image to start demo-video:
-[![Watch the video](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/startPhoto.jpg)](https://youtu.be/z3g9qKQGX-o)
+[![Watch the video](https://github.com/SophiaYarmolenko/MiniExcel/blob/master/StartImage.png)](https://youtu.be/z3g9qKQGX-o)
 ## About project:
 *    Implemented mini excel, that can analyze given formula in cell (another cells can be parameters in formula)
 *    Operation that you can use:
