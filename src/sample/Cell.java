@@ -1,10 +1,14 @@
 package sample;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.BitSet;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Cell
 {
@@ -13,7 +17,7 @@ public class Cell
     private String stringValue = "";
     private double doubleValue = 0;
     private String formula = "";
-    public LinkedList<Cell> listOfCellsWhereAppears = new LinkedList<>();
+    public Set<Cell> listOfCellsWhereAppears = Collections.newSetFromMap(new ConcurrentHashMap<>());;
     private LinkedList<Cell> listOfCellInFormula = new LinkedList<>();
 
     public Cell( String cellCol, String formula, String name)
@@ -68,7 +72,7 @@ public class Cell
         return cellName;
     }
 
-    public LinkedList<Cell>getListOfCellsWhereAppears()
+    public Set<Cell> getListOfCellsWhereAppears()
     {
         return listOfCellsWhereAppears;
     }
@@ -90,9 +94,9 @@ public class Cell
         listOfCellInFormula.clear();
 
         String stringOnlyWithCell = formula;
-        stringOnlyWithCell = stringOnlyWithCell.replaceAll("[-+^>=<%:/*a-z][0-9]*"," ")
+        stringOnlyWithCell = stringOnlyWithCell.replaceAll("[-+>^=%<:/*!a-z][0-9]*"," ")
                 .replaceAll("[()][0-9]*"," ")
-                .replaceAll("[-+^>=<%:/*][0-9][)]*"," ");
+                .replaceAll("[-+<^=%:>/!*][0-9][)]*"," ");
         stringOnlyWithCell = stringOnlyWithCell.trim().replaceAll(" +", " ");
 
         for(String str : stringOnlyWithCell.split(" "))
@@ -129,7 +133,7 @@ public class Cell
         }
     }
 
-    private void analyzeFormulaWithParser()
+    public void analyzeFormulaWithParser()
     {
         if(analyzeFormula())
         {
@@ -139,17 +143,43 @@ public class Cell
                 LibExpLexer lexer = new LibExpLexer(lineStream);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 LibExpParser parser = new LibExpParser(tokens);
+                parser.addErrorListener(new ANTLRErrorListener()
+                {
+                    @Override
+                    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e)
+                    {
+                        throw new RuntimeException("syntax error");
+                    }
+
+                    @Override
+                    public void reportAmbiguity(Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet, ATNConfigSet atnConfigSet) {
+
+                    }
+
+                    @Override
+                    public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet, ATNConfigSet atnConfigSet) {
+
+                    }
+
+                    @Override
+                    public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2, ATNConfigSet atnConfigSet) {
+
+                    }
+                });
+
                 ParseTree tree = parser.input();
                 LibExpBaseVisitorImpl calcVisitor = new LibExpBaseVisitorImpl();
                 Double value = calcVisitor.visit(tree);
                 doubleValue = value;
                 stringValue = Double.toString(doubleValue);
+
                 if(listOfCellsWhereAppears != null)
                 {
-                    for(Cell cell:listOfCellsWhereAppears)
+                    for ( Cell listOfCellsWhereAppear : listOfCellsWhereAppears)
                     {
-                        cell.calculateFormulaInCell();
+                        listOfCellsWhereAppear.calculateFormulaInCell();
                     }
+
                 }
             }
             catch (NumberFormatException e)
@@ -158,6 +188,11 @@ public class Cell
                 doubleValue = 0;
             }
             catch (NullPointerException e)
+            {
+                stringValue = "Error";
+                doubleValue = 0;
+            }
+            catch (RuntimeException e)
             {
                 stringValue = "Error";
                 doubleValue = 0;
